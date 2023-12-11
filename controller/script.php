@@ -91,33 +91,23 @@ if (!isset($_SESSION["project_cafe_kupang"]["users"])) {
     }
   }
 
-  $select_pemilihan_kafe = "SELECT * FROM alternatif JOIN kafe ON alternatif.id_kafe=kafe.id_kafe JOIN status_kafe ON kafe.id_status=status_kafe.id_status WHERE kafe.id_status='3' ORDER BY kafe.nama_kafe ASC";
-  $views_pemilihan_kafe = mysqli_query($conn, $select_pemilihan_kafe);
-  if (isset($_POST['perhitungan'])) {
-    if (!isset($_POST['id_alternatif'])) {
-      $message = "Maaf, anda harus memilih kafe terlebih dahulu.";
+  $select_kriteria_kafe = "SELECT * FROM kriteria";
+  $views_kriteria_kafe = mysqli_query($conn, $select_kriteria_kafe);
+  if (isset($_POST['pilih_kriteria'])) {
+    if (!isset($_POST['id_kriteria'])) {
+      $message = "Maaf, anda harus memilih kriteria terlebih dahulu.";
       $message_type = "danger";
       alert($message, $message_type);
       header("Location: pemilihan-kafe");
       exit();
     }
-
-    $selected = (array) $_POST['id_alternatif'];
-
-    if (count($selected) < 2) {
-      $message = "Maaf, anda harus memilih minimal 2 kafe untuk melakukan perhitungan.";
-      $message_type = "danger";
-      alert($message, $message_type);
-      header("Location: pemilihan-kafe");
-      exit();
-    } else {
-      $_SESSION["project_cafe_kupang"]["perhitungan"] = [
-        "akses" => 1,
-        "selected" => $selected
-      ];
-      header("Location: pemilihan-kafe");
-      exit();
-    }
+    $selected = (array) $_POST['id_kriteria'];
+    $_SESSION["project_cafe_kupang"]["perhitungan"] = [
+      "akses" => 1,
+      "selected" => $selected
+    ];
+    header("Location: pemilihan-kafe");
+    exit();
   }
   if (isset($_POST["reset_perhitungan"])) {
     unset($_SESSION["project_cafe_kupang"]["perhitungan"]);

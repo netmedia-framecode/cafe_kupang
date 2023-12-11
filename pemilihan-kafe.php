@@ -56,7 +56,7 @@ $_SESSION["project_cafe_kupang"]["name_page"] = "Pemilihan Kafe"; ?>
               </div>
 
               <?php if (!isset($_SESSION["project_cafe_kupang"]["perhitungan"])) { ?>
-                <h2 class="mt-3">Pilih Kafe</h2>
+                <h2 class="mt-3">Pilih Kriteria Kafe</h2>
                 <div class="card shadow mb-4 border-0">
                   <div class="card-body">
                     <form action="" method="post">
@@ -65,50 +65,41 @@ $_SESSION["project_cafe_kupang"]["name_page"] = "Pemilihan Kafe"; ?>
                           <thead>
                             <tr>
                               <th scope="col" class="text-center">Pilih</th>
-                              <th scope="col" class="text-center">Nama Kafe</th>
-                              <th scope="col" class="text-center">Telp</th>
-                              <th scope="col" class="text-center">Alamat</th>
-                              <th scope="col" class="text-center">Status</th>
+                              <th scope="col" class="text-center">Kriteria</th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
                               <th class="text-center">Pilih</th>
-                              <th class="text-center">Nama Kafe</th>
-                              <th class="text-center">Telp</th>
-                              <th class="text-center">Alamat</th>
-                              <th class="text-center">Status</th>
+                              <th class="text-center">Kriteria</th>
                             </tr>
                           </tfoot>
                           <tbody>
-                            <?php if (mysqli_num_rows($views_pemilihan_kafe) > 0) {
+                            <?php if (mysqli_num_rows($views_kriteria_kafe) > 0) {
                               $no = 1;
-                              while ($row = mysqli_fetch_assoc($views_pemilihan_kafe)) { ?>
+                              while ($row = mysqli_fetch_assoc($views_kriteria_kafe)) { ?>
                                 <tr>
                                   <th scope="row" style="width: 50px;">
                                     <div class="form-check text-center">
-                                      <input class="form-check-input shadow border-0" type="checkbox" name="id_alternatif[]" value="<?= $row['id_alternatif'] ?>" style="transform: scale(1.5);">
+                                      <input class="form-check-input shadow border-0" type="checkbox" name="id_kriteria[]" value="<?= $row['id_kriteria'] ?>" style="transform: scale(1.5);">
                                     </div>
                                   </th>
-                                  <td><img src="<?= $row["image"] ?>" style="width: 50px;height: 50px;margin-right: 10px;" alt="Image"><?= $row["nama_kafe"] ?></td>
-                                  <td><?= $row["telp"] ?></td>
-                                  <td><?= $row["alamat"] ?></td>
-                                  <td><?= $row["status_kafe"] ?></td>
+                                  <td><?= $row["nama_kriteria"] ?></td>
                                 </tr>
                             <?php $no++;
                               }
                             } ?>
                           </tbody>
                         </table>
-                        <button type="submit" name="perhitungan" class="d-none d-sm-inline-block btn btn-primary shadow-sm mt-3 mb-1"><i class="bi bi-calculator"></i> Mulai</button>
+                        <button type="submit" name="pilih_kriteria" class="d-none d-sm-inline-block btn btn-primary shadow-sm mt-3 mb-1"><i class="bi bi-calculator"></i> Mulai</button>
                         <p>Dengan klik mulai anda akan mencari kafe dengan kualitas yang terbaik berdasarkan rangking.</p>
                       </div>
                     </form>
                   </div>
                 </div>
               <?php } else if (isset($_SESSION["project_cafe_kupang"]["perhitungan"])) {
-                require_once("views/ngitung.php");
                 $selected = $_SESSION["project_cafe_kupang"]["perhitungan"]["selected"];
+                require_once("ngitung.php");
                 $bobot_kriteria = get_bobot_kriteria();
                 $normal_kriteria = get_normal_kriteria($bobot_kriteria);
                 $data = get_hasil_analisa('', $selected);

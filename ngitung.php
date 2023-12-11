@@ -1,6 +1,7 @@
-<?php require_once("../controller/db_connect.php");
+<?php require_once("controller/db_connect.php");
 // Normaslisasi Kriteria
-$xc_kriteria = mysqli_query($conn, "SELECT * FROM kriteria");
+$where_kriteria = $selected ? " id_kriteria IN ('" . implode("','", $selected) . "')" : '';
+$xc_kriteria = mysqli_query($conn, "SELECT * FROM kriteria WHERE $where_kriteria");
 $kriteria_cv = mysqli_query($conn, "SELECT id_kriteria, nama_kriteria, bobot FROM kriteria ORDER BY id_kriteria");
 $KRITERIA = array();
 foreach ($kriteria_cv as $row_cv) {
@@ -37,15 +38,16 @@ foreach ($alternatif_al as $row_al) {
   $ALTERNATIF[$id_alternatif] = $row_al['nama_kafe'];
   $DATES[$id_alternatif] = $row_al['updated_at'];
 }
-function get_hasil_analisa($search = '', $alternatif = array())
+function get_hasil_analisa($search = '', $kriteria = array())
 {
   global $conn;
-  $where = $alternatif ? " nilai_alternatif.id_alternatif IN ('" . implode("','", $alternatif) . "')" : '';
+  $where = $kriteria ? " kriteria.id_kriteria IN ('" . implode("','", $kriteria) . "')" : '';
   $rows = mysqli_query($conn, "SELECT alternatif.id_alternatif, kriteria.id_kriteria, nilai_alternatif.nilai FROM alternatif
         	JOIN nilai_alternatif ON nilai_alternatif.id_alternatif=alternatif.id_alternatif
         	JOIN kriteria ON nilai_alternatif.id_kriteria=kriteria.id_kriteria
         	JOIN kafe ON alternatif.id_kafe=kafe.id_kafe 
           WHERE $where
+          AND kafe.id_status=3
           ORDER BY alternatif.id_alternatif, kriteria.id_kriteria
         ");
   $data = array();
