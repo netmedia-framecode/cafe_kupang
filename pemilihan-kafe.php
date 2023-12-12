@@ -114,33 +114,27 @@ $_SESSION["project_cafe_kupang"]["name_page"] = "Pemilihan Kafe"; ?>
                       <table class="table table-bordered text-dark" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                           <tr>
-                            <th></th>
-                            <?php foreach ($xc_kriteria as $row_xc) : ?>
-                              <th scope="col"><?= $row_xc['nama_kriteria'] ?></th>
-                            <?php endforeach; ?>
-                            <th>Total</th>
-                            <th>Rank</th>
+                            <th scope="col" class="text-center">Rank</th>
+                            <th scope="col" class="text-center">Nama Kafe</th>
+                            <th scope="col" class="text-center">Telp</th>
+                            <th scope="col" class="text-center">Alamat</th>
                           </tr>
                         </thead>
                         <tfoot>
                           <tr>
-                            <th></th>
-                            <?php foreach ($xc_kriteria as $row_xc) : ?>
-                              <th scope="col"><?= $row_xc['nama_kriteria'] ?></th>
-                            <?php endforeach; ?>
-                            <th>Total</th>
-                            <th>Rank</th>
+                            <th class="text-center">Rank</th>
+                            <th class="text-center">Nama Kafe</th>
+                            <th class="text-center">Telp</th>
+                            <th class="text-center">Alamat</th>
                           </tr>
                         </tfoot>
                         <tbody>
                           <?php foreach ($rank as $key => $val) : ?>
                             <tr>
-                              <th><?= $ALTERNATIF[$key] ?></th>
-                              <?php foreach ($terbobot[$key] as $k => $v) : ?>
-                                <td><?= round($v, 2) ?></td>
-                              <?php endforeach ?>
-                              <td><?= round($total[$key], 2) ?></td>
-                              <td><?= $rank[$key] ?></td>
+                              <td class="text-center"><?= $rank[$key] ?></td>
+                              <th><?= $ALTERNATIF[$key]['nama_kafe'] ?></th>
+                              <th><?= $ALTERNATIF[$key]['telp'] ?></th>
+                              <th><?= $ALTERNATIF[$key]['alamat'] ?></th>
                             </tr>
                           <?php
                             mysqli_query($conn, "UPDATE alternatif SET total='$total[$key]', rank='$rank[$key]' WHERE id_alternatif='$key'");

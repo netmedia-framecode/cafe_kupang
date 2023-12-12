@@ -31,11 +31,11 @@ function get_normal_kriteria($bobot_kriteria)
 }
 
 // Alternatif
-$alternatif_al = mysqli_query($conn, "SELECT alternatif.id_alternatif, alternatif.updated_at, kafe.nama_kafe FROM alternatif JOIN kafe ON alternatif.id_kafe=kafe.id_kafe ORDER BY alternatif.id_alternatif");
+$alternatif_al = mysqli_query($conn, "SELECT alternatif.id_alternatif, alternatif.updated_at, kafe.nama_kafe, kafe.telp, kafe.alamat FROM alternatif JOIN kafe ON alternatif.id_kafe=kafe.id_kafe ORDER BY alternatif.id_alternatif");
 $ALTERNATIF = array();
 foreach ($alternatif_al as $row_al) {
   $id_alternatif = $row_al['id_alternatif'];
-  $ALTERNATIF[$id_alternatif] = $row_al['nama_kafe'];
+  $ALTERNATIF[$id_alternatif] = array('nama_kafe' => $row_al['nama_kafe'], 'telp' => $row_al['telp'], 'alamat' => $row_al['alamat']);
   $DATES[$id_alternatif] = $row_al['updated_at'];
 }
 function get_hasil_analisa($search = '', $kriteria = array())
