@@ -91,6 +91,16 @@ $_SESSION["project_cafe_kupang"]["name_page"] = "Pemilihan Kafe"; ?>
                             } ?>
                           </tbody>
                         </table>
+                        <div class="col-lg-4 p-0">
+                          <div class="form-group">
+                            <label for="jam_buka" class="form-label">Jam Buka</label>
+                            <input type="time" name="jam_buka" class="form-control" id="jam_buka" placeholder="Jam Buka">
+                          </div>
+                          <div class="form-group">
+                            <label for="jam_tutup" class="form-label">Jam Tutup</label>
+                            <input type="time" name="jam_tutup" class="form-control" id="jam_tutup" placeholder="Jam Tutup">
+                          </div>
+                        </div>
                         <button type="submit" name="pilih_kriteria" class="d-none d-sm-inline-block btn btn-primary shadow-sm mt-3 mb-1"><i class="bi bi-calculator"></i> Mulai</button>
                         <p>Dengan klik mulai anda akan mencari kafe dengan kualitas yang terbaik berdasarkan rangking.</p>
                       </div>

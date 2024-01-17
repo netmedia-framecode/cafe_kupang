@@ -941,7 +941,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
         alert($message, $message_type);
         return false;
       }
-      $sql = "INSERT INTO kafe(id_user,image,nama_kafe,telp,alamat) VALUES('$id_user','$url_image','$data[nama]','$data[telp]','$data[alamat]')";
+      $sql = "INSERT INTO kafe(id_user,image,nama_kafe,telp,alamat,jam_buka,jam_tutup) VALUES('$id_user','$url_image','$data[nama]','$data[telp]','$data[alamat]','$data[jam_buka]','$data[jam_tutup]')";
     }
 
     if ($action == "update") {
@@ -971,10 +971,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       } else if (empty($_FILE['avatar']["name"])) {
         $url_image = $data['avatarOld'];
       }
-      $nama = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['nama']))));
-      $telp = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['telp']))));
-      $alamat = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['alamat']))));
-      $sql = "UPDATE kafe SET image='$url_image', nama_kafe='$nama', telp='$telp', alamat='$alamat' WHERE id_kafe='$data[id_kafe]'";
+      $sql = "UPDATE kafe SET image='$url_image', nama_kafe='$data[nama]', telp='$data[telp]', alamat='$data[alamat]', jam_buka='$data[jam_buka]', jam_tutup='$data[jam_tutup]' WHERE id_kafe='$data[id_kafe]'";
     }
 
     if ($action == "delete") {

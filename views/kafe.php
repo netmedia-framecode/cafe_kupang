@@ -22,6 +22,7 @@ require_once("../templates/views_top.php"); ?>
               <th scope="col" class="text-center">Telp</th>
               <th scope="col" class="text-center">Alamat</th>
               <th scope="col" class="text-center">Status</th>
+              <th scope="col" class="text-center">Jam Operational</th>
               <th scope="col" class="text-center">Tgl Buat</th>
               <th scope="col" class="text-center">Tgl Ubah</th>
               <th scope="col" class="text-center">Aksi</th>
@@ -34,6 +35,7 @@ require_once("../templates/views_top.php"); ?>
               <th class="text-center">Telp</th>
               <th class="text-center">Alamat</th>
               <th class="text-center">Status</th>
+              <th class="text-center">Jam Operational</th>
               <th class="text-center">Tgl Buat</th>
               <th class="text-center">Tgl Ubah</th>
               <th class="text-center">Aksi</th>
@@ -49,6 +51,12 @@ require_once("../templates/views_top.php"); ?>
                   <td><?= $row["telp"] ?></td>
                   <td><?= $row["alamat"] ?></td>
                   <td><?= $row["status_kafe"] ?></td>
+                  <td>
+                    <?php $jam_buka = date_create($row["jam_buka"]);
+                    echo date_format($jam_buka, "h:i a"); ?>
+                    <?php $jam_tutup = date_create($row["jam_tutup"]);
+                    echo date_format($jam_tutup, "h:i a"); ?>
+                  </td>
                   <td>
                     <div class="badge badge-opacity-success">
                       <?php $dateCreate = date_create($row["created_at"]);
@@ -97,6 +105,14 @@ require_once("../templates/views_top.php"); ?>
                               <div class="form-group">
                                 <label for="alamat" class="form-label">Alamat</label>
                                 <input type="text" name="alamat" value="<?= $row['alamat'] ?>" class="form-control" id="alamat" placeholder="Alamat">
+                              </div>
+                              <div class="form-group">
+                                <label for="jam_buka" class="form-label">Jam Buka</label>
+                                <input type="time" name="jam_buka" value="<?= $row['jam_buka'] ?>" class="form-control" id="jam_buka" placeholder="Jam Buka">
+                              </div>
+                              <div class="form-group">
+                                <label for="jam_tutup" class="form-label">Jam Tutup</label>
+                                <input type="time" name="jam_tutup" value="<?= $row['jam_tutup'] ?>" class="form-control" id="jam_tutup" placeholder="Jam Tutup">
                               </div>
                             </div>
                             <div class="modal-footer justify-content-center border-top-0">
@@ -180,6 +196,18 @@ require_once("../templates/views_top.php"); ?>
               <input type="text" name="alamat" value="<?php if (isset($_POST['alamat'])) {
                                                         echo $_POST['alamat'];
                                                       } ?>" class="form-control" id="alamat" placeholder="Alamat">
+            </div>
+            <div class="form-group">
+              <label for="jam_buka" class="form-label">Jam Buka</label>
+              <input type="time" name="jam_buka" value="<?php if (isset($_POST['jam_buka'])) {
+                                                          echo $_POST['jam_buka'];
+                                                        } ?>" class="form-control" id="jam_buka" placeholder="Jam Buka">
+            </div>
+            <div class="form-group">
+              <label for="jam_tutup" class="form-label">Jam Tutup</label>
+              <input type="time" name="jam_tutup" value="<?php if (isset($_POST['jam_tutup'])) {
+                                                            echo $_POST['jam_tutup'];
+                                                          } ?>" class="form-control" id="jam_tutup" placeholder="Jam Tutup">
             </div>
           </div>
           <div class="modal-footer justify-content-center border-top-0">

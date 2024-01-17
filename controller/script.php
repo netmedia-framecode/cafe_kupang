@@ -102,9 +102,13 @@ if (!isset($_SESSION["project_cafe_kupang"]["users"])) {
       exit();
     }
     $selected = (array) $_POST['id_kriteria'];
+    $jam_buka = valid($conn, $_POST['jam_buka']);
+    $jam_tutup = valid($conn, $_POST['jam_tutup']);
     $_SESSION["project_cafe_kupang"]["perhitungan"] = [
       "akses" => 1,
-      "selected" => $selected
+      "selected" => $selected,
+      "jam_buka" => $jam_buka,
+      "jam_tutup" => $jam_tutup
     ];
     header("Location: pemilihan-kafe");
     exit();
@@ -157,9 +161,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Profil Anda berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: profil");
       exit();
     }
   }
@@ -171,9 +173,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Setting pada system login berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: setting");
       exit();
     }
   }
@@ -194,9 +194,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "data users berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: users");
       exit();
     }
   }
@@ -208,9 +206,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Role baru berhasil ditambahkan.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: role");
       exit();
     }
   }
@@ -222,9 +218,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Role " . $_POST['roleOld'] . " berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: role");
       exit();
     }
   }
@@ -236,9 +230,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Role " . $_POST['role'] . " berhasil dihapus.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: role");
       exit();
     }
   }
@@ -256,9 +248,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Menu baru berhasil ditambahkan.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: menu");
       exit();
     }
   }
@@ -270,9 +260,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Menu " . $_POST['menuOld'] . " berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: menu");
       exit();
     }
   }
@@ -284,9 +272,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Menu " . $_POST['menu'] . " berhasil dihapus.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: menu");
       exit();
     }
   }
@@ -310,9 +296,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Sub Menu baru berhasil ditambahkan.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: sub-menu");
       exit();
     }
   }
@@ -324,9 +308,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Sub Menu " . $_POST['titleOld'] . " berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: sub-menu");
       exit();
     }
   }
@@ -338,9 +320,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Sub Menu " . $_POST['title'] . " berhasil dihapus.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: sub-menu");
       exit();
     }
   }
@@ -364,9 +344,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Akses ke menu berhasil ditambahkan.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: menu-access");
       exit();
     }
   }
@@ -378,9 +356,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Akses menu " . $_POST['menu'] . " berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: menu-access");
       exit();
     }
   }
@@ -392,9 +368,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Akses menu " . $_POST['menu'] . " berhasil dihapus.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: menu-access");
       exit();
     }
   }
@@ -418,9 +392,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Akses ke sub menu berhasil ditambahkan.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: sub-menu-access");
       exit();
     }
   }
@@ -432,9 +404,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Akses sub menu " . $_POST['title'] . " berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: sub-menu-access");
       exit();
     }
   }
@@ -446,9 +416,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Akses sub menu " . $_POST['title'] . " berhasil dihapus.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: sub-menu-access");
       exit();
     }
   }
@@ -467,9 +435,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data kafe berhasil ditambahkan.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: kafe");
       exit();
     }
   }
@@ -481,9 +447,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data kafe " . $_POST['nama_kafeOld'] . " berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: kafe");
       exit();
     }
   }
@@ -495,9 +459,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data kafe " . $_POST['nama_kafe'] . " berhasil dihapus.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: kafe");
       exit();
     }
   }
@@ -512,9 +474,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data kriteria berhasil ditambahkan.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: kriteria");
       exit();
     }
   }
@@ -526,9 +486,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data kriteria " . $_POST['nama_kriteriaOld'] . " berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: kriteria");
       exit();
     }
   }
@@ -540,9 +498,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data kriteria " . $_POST['nama_kriteria'] . " berhasil dihapus.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: kriteria");
       exit();
     }
   }
@@ -557,9 +513,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data sub kriteria berhasil ditambahkan.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: sub-kriteria");
       exit();
     }
   }
@@ -571,9 +525,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data sub kriteria " . $_POST['sub_kriteria'] . " berhasil dihapus.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: sub-kriteria");
       exit();
     }
   }
@@ -595,9 +547,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data alternatif berhasil ditambahkan.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: alternatif");
       exit();
     }
   }
@@ -609,9 +559,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data alternatif " . $_POST['kode_alternatif'] . " berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: alternatif");
       exit();
     }
   }
@@ -623,9 +571,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data alternatif " . $_POST['kode_alternatif'] . " berhasil dihapus.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: alternatif");
       exit();
     }
   }
@@ -654,9 +600,7 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data nilai alternatif " . $_POST['nama_kafe'] . " berhasil diubah.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: nilai-alternatif");
       exit();
     }
   }
@@ -691,17 +635,13 @@ if (isset($_SESSION["project_cafe_kupang"]["users"])) {
       $message = "Data perhitungan berhasil masukan.";
       $message_type = "success";
       alert($message, $message_type);
-      $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-      $to_page = str_replace(" ", "-", $to_page);
-      header("Location: $to_page");
+      header("Location: pemilihan-kafe");
       exit();
     }
   }
   if (isset($_POST["reset_perhitungan"])) {
     unset($_SESSION["project_cafe_kupang"]["perhitungan"]);
-    $to_page = strtolower($_SESSION["project_cafe_kupang"]["name_page"]);
-    $to_page = str_replace(" ", "-", $to_page);
-    header("Location: $to_page");
+    header("Location: pemilihan-kafe");
     exit();
   }
 }

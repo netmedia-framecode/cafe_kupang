@@ -31,31 +31,43 @@ function get_normal_kriteria($bobot_kriteria)
 }
 
 // Alternatif
-$alternatif_al = mysqli_query($conn, "SELECT alternatif.id_alternatif, alternatif.updated_at, kafe.nama_kafe, kafe.telp, kafe.alamat FROM alternatif JOIN kafe ON alternatif.id_kafe=kafe.id_kafe ORDER BY alternatif.id_alternatif");
+$jam_buka = valid($conn, $_SESSION["project_cafe_kupang"]["perhitungan"]['jam_buka']);
+$jam_tutup = valid($conn, $_SESSION["project_cafe_kupang"]["perhitungan"]['jam_tutup']);
+$alternatif_al = mysqli_query($conn, "SELECT alternatif.id_alternatif, alternatif.updated_at, kafe.id_kafe, kafe.nama_kafe, kafe.telp, kafe.alamat, kafe.jam_buka, kafe.jam_tutup
+                                      FROM alternatif 
+                                      JOIN kafe ON alternatif.id_kafe=kafe.id_kafe 
+                                      WHERE kafe.jam_buka >= '$jam_buka' OR kafe.jam_tutup <= '$jam_tutup'
+                                      ORDER BY alternatif.id_alternatif");
 $ALTERNATIF = array();
 foreach ($alternatif_al as $row_al) {
   $id_alternatif = $row_al['id_alternatif'];
-  $ALTERNATIF[$id_alternatif] = array('nama_kafe' => $row_al['nama_kafe'], 'telp' => $row_al['telp'], 'alamat' => $row_al['alamat']);
+  $ALTERNATIF[$id_alternatif] = array('nama_kafe' => $row_al['nama_kafe'], 'telp' => $row_al['telp'], 'alamat' => $row_al['alamat'], 'jam_buka' => $row_al['jam_buka'], 'jam_tutup' => $row_al['jam_tutup']);
   $DATES[$id_alternatif] = $row_al['updated_at'];
 }
 function get_hasil_analisa($search = '', $kriteria = array())
 {
   global $conn;
+  $jam_buka = valid($conn, $_SESSION["project_cafe_kupang"]["perhitungan"]['jam_buka']);
+  $jam_tutup = valid($conn, $_SESSION["project_cafe_kupang"]["perhitungan"]['jam_tutup']);
   $where = $kriteria ? " kriteria.id_kriteria IN ('" . implode("','", $kriteria) . "')" : '';
-  $rows = mysqli_query($conn, "SELECT alternatif.id_alternatif, kriteria.id_kriteria, nilai_alternatif.nilai FROM alternatif
-        	JOIN nilai_alternatif ON nilai_alternatif.id_alternatif=alternatif.id_alternatif
-        	JOIN kriteria ON nilai_alternatif.id_kriteria=kriteria.id_kriteria
-        	JOIN kafe ON alternatif.id_kafe=kafe.id_kafe 
-          WHERE $where
-          AND kafe.id_status=3
+  $status_condition = "kafe.id_status = 3";
+  $jam_condition = "(kafe.jam_buka) >= '$jam_buka' OR kafe.jam_tutup <= '$jam_tutup'";
+
+  $rows = mysqli_query($conn, "SELECT alternatif.id_alternatif, kriteria.id_kriteria, kafe.id_kafe, nilai_alternatif.nilai FROM alternatif
+        	JOIN nilai_alternatif ON nilai_alternatif.id_alternatif = alternatif.id_alternatif
+        	JOIN kriteria ON nilai_alternatif.id_kriteria = kriteria.id_kriteria
+        	JOIN kafe ON alternatif.id_kafe = kafe.id_kafe 
+          WHERE ($jam_condition AND $status_condition) AND ($where)
           ORDER BY alternatif.id_alternatif, kriteria.id_kriteria
         ");
+
   $data = array();
   foreach ($rows as $row) {
     $id_kriteria = $row['id_kriteria'];
     $id_alternatif = $row['id_alternatif'];
     $data[$id_alternatif][$id_kriteria] = $row['nilai'];
   }
+
   return $data;
 }
 
