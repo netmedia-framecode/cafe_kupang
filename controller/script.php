@@ -101,14 +101,12 @@ if (!isset($_SESSION["project_cafe_kupang"]["users"])) {
       header("Location: pemilihan-kafe");
       exit();
     }
-    $selected = (array) $_POST['id_kriteria'];
-    $jam_buka = valid($conn, $_POST['jam_buka']);
-    $jam_tutup = valid($conn, $_POST['jam_tutup']);
+    $selected_kriteria = (array) $_POST['id_kriteria'];
+    $selected_sub_kriteria = (array) $_POST['id_sub_kriteria'];
     $_SESSION["project_cafe_kupang"]["perhitungan"] = [
       "akses" => 1,
-      "selected" => $selected,
-      "jam_buka" => $jam_buka,
-      "jam_tutup" => $jam_tutup
+      "selected_kriteria" => $selected_kriteria,
+      "selected_sub_kriteria" => $selected_sub_kriteria,
     ];
     header("Location: pemilihan-kafe");
     exit();

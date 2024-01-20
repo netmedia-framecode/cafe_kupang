@@ -81,26 +81,51 @@ $_SESSION["project_cafe_kupang"]["name_page"] = "Pemilihan Kafe"; ?>
                                 <tr>
                                   <th scope="row" style="width: 50px;">
                                     <div class="form-check text-center">
-                                      <input class="form-check-input shadow border-0" type="checkbox" name="id_kriteria[]" value="<?= $row['id_kriteria'] ?>" style="transform: scale(1.5);">
+                                      <input class="form-check-input shadow border-0" type="checkbox" name="id_kriteria[]" value="<?= $row['id_kriteria'] ?>" id="id_kriteria<?= $row['id_kriteria'] ?>" style="transform: scale(1.5);" onchange="toggleSubKriteria(this)">
                                     </div>
                                   </th>
-                                  <td><?= $row["nama_kriteria"] ?></td>
+                                  <td>
+                                    <label for="id_kriteria<?= $row['id_kriteria'] ?>"><?= $row["nama_kriteria"]; ?></label>
+                                  </td>
+                                </tr>
+                                <tr class="sub-kriteria-row" style="display: none;">
+                                  <td></td>
+                                  <td class="display-show">
+                                    <div class="row">
+                                      <div class="col-lg-4" style="margin-left: 50px;">
+                                        <?php $id_kriteria = $row['id_kriteria'];
+                                        $take_sub_kriteria = "SELECT * FROM sub_kriteria WHERE id_kriteria='$id_kriteria'";
+                                        $takes_sub_kriteria = mysqli_query($conn, $take_sub_kriteria);
+                                        if (mysqli_num_rows($takes_sub_kriteria) > 0) { ?>
+                                          <div class="form-group">
+                                            <select name="id_sub_kriteria[]" class="form-control border-0" style="transform: scale(1.2);">
+                                              <option value="" selected>Pilih Sub Kriteria</option>
+                                              <?php while ($data = mysqli_fetch_assoc($takes_sub_kriteria)) { ?>
+                                                <option value="<?= $data['id_sub_kriteria'] ?>"><?= $data['sub_kriteria'] ?></option>
+                                              <?php } ?>
+                                            </select>
+                                          </div>
+                                        <?php }; ?>
+                                      </div>
+                                    </div>
+                                  </td>
                                 </tr>
                             <?php $no++;
                               }
                             } ?>
+
+                            <script>
+                              function toggleSubKriteria(checkbox) {
+                                var subKriteriaRow = checkbox.closest('tr').nextElementSibling;
+                                if (checkbox.checked) {
+                                  subKriteriaRow.style.display = 'table-row';
+                                } else {
+                                  subKriteriaRow.style.display = 'none';
+                                }
+                              }
+                            </script>
                           </tbody>
                         </table>
-                        <div class="col-lg-4 p-0">
-                          <div class="form-group">
-                            <label for="jam_buka" class="form-label">Jam Buka</label>
-                            <input type="time" name="jam_buka" class="form-control" id="jam_buka" placeholder="Jam Buka">
-                          </div>
-                          <div class="form-group">
-                            <label for="jam_tutup" class="form-label">Jam Tutup</label>
-                            <input type="time" name="jam_tutup" class="form-control" id="jam_tutup" placeholder="Jam Tutup">
-                          </div>
-                        </div>
                         <button type="submit" name="pilih_kriteria" class="d-none d-sm-inline-block btn btn-primary shadow-sm mt-3 mb-1"><i class="bi bi-calculator"></i> Mulai</button>
                         <p>Dengan klik mulai anda akan mencari kafe dengan kualitas yang terbaik berdasarkan rangking.</p>
                       </div>
@@ -108,11 +133,12 @@ $_SESSION["project_cafe_kupang"]["name_page"] = "Pemilihan Kafe"; ?>
                   </div>
                 </div>
               <?php } else if (isset($_SESSION["project_cafe_kupang"]["perhitungan"])) {
-                $selected = $_SESSION["project_cafe_kupang"]["perhitungan"]["selected"];
+                $selected_kriteria = $_SESSION["project_cafe_kupang"]["perhitungan"]["selected_kriteria"];
+                $selected_sub_kriteria = $_SESSION["project_cafe_kupang"]["perhitungan"]["selected_sub_kriteria"];
                 require_once("ngitung.php");
                 $bobot_kriteria = get_bobot_kriteria();
                 $normal_kriteria = get_normal_kriteria($bobot_kriteria);
-                $data = get_hasil_analisa('', $selected);
+                $data = get_hasil_analisa('', $selected_kriteria);
                 $terbobot = get_terbobot($data, $normal_kriteria);
                 $total = get_total($terbobot);
                 $rank = get_rank($total);
@@ -128,6 +154,7 @@ $_SESSION["project_cafe_kupang"]["name_page"] = "Pemilihan Kafe"; ?>
                             <th scope="col" class="text-center">Nama Kafe</th>
                             <th scope="col" class="text-center">Telp</th>
                             <th scope="col" class="text-center">Alamat</th>
+                            <th scope="col" class="text-center">Total</th>
                           </tr>
                         </thead>
                         <tfoot>
@@ -136,6 +163,7 @@ $_SESSION["project_cafe_kupang"]["name_page"] = "Pemilihan Kafe"; ?>
                             <th class="text-center">Nama Kafe</th>
                             <th class="text-center">Telp</th>
                             <th class="text-center">Alamat</th>
+                            <th class="text-center">Total</th>
                           </tr>
                         </tfoot>
                         <tbody>
@@ -145,6 +173,7 @@ $_SESSION["project_cafe_kupang"]["name_page"] = "Pemilihan Kafe"; ?>
                               <th><?= $ALTERNATIF[$key]['nama_kafe'] ?></th>
                               <th><?= $ALTERNATIF[$key]['telp'] ?></th>
                               <th><?= $ALTERNATIF[$key]['alamat'] ?></th>
+                              <th><?= $ALTERNATIF[$key]['total'] ?></th>
                             </tr>
                           <?php
                             mysqli_query($conn, "UPDATE alternatif SET total='$total[$key]', rank='$rank[$key]' WHERE id_alternatif='$key'");
